@@ -6,25 +6,30 @@ if(!iseet($_POST["usuario"]) || $_POST["usuario"]==""){
 
 $usuarioPost="cierrecaja.id_usuario like '%'";
 }else{
-    $usuarioPost="cierrecaja.id_usuario"=.$_POST["usuario"];
-
+    $usuarioPost="cierrecaja.id_usuario=".$_POST["usuario"];
+    $u_var=1;
 }
 
 if(!iseet($_POST["fecha"]) || $_POST["fecha"]==""){
 
   $fechaPost="cierrecaja.fecha like '%'";
     }else{
-        $fechaPost="cierrecaja.fecha".$_POST["fecha"];
+        $fechaPost="cierrecaja.fecha=".$_POST["fecha"];
+    $f_var=1;
     }
     
     if(!iseet($_POST["turno"]) || $_POST["turno"]==""){
 
         $turnoPost="cierrecaja.turno like '%'";
         }else{
-            $turnoPost="cierrecaja.turno".$_POST["usuario"];
+            $turnoPost="cierrecaja.turno=".$_POST["turno"];
+            $t_var=1;
         }
-        
+$where= $usuarioPost." AMD ".$fechaPost." AND ". $turnoPost;
+$cierre=cierreCaja($where);    
+
 ?>
+
 
 
 
@@ -44,7 +49,13 @@ if(!iseet($_POST["fecha"]) || $_POST["fecha"]==""){
             <?php 
              $Usuarios=usuario();
             foreach($Usuarios as $User){
-                echo "<option value='". $User->id_usuario ."'>". $User->apellido.", ".$User->nombre."</option>";
+                echo "<option value='". $User->id_usuario ."'";
+                if($u_var==1){
+                echo  " selected>";
+                }else{
+                echo ">";       
+                }
+                echo $User->apellido.", ".$User->nombre."</option>";
             }?>
 
         </select></td>
