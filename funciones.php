@@ -379,12 +379,11 @@ function cierreCaja($where)
 {
     $bd = obtenerConexion();
 
-    $sql = "SELECT `id_cierre`,efectivo, `tarjeta`, `cCorriente`, `canje`, `pagoEnCuentaC`, `Total`, `ganancia`,\n"
-    . "turno, usuario.apellido, usuario.nombre\n"
+    $sql = "SELECT `id_cierre`,efectivo, `tarjeta`, `cCorriente`, `canje`, `pagoEnCuentaC`, `Total`, `ganancia`,\n "
+    . "turno, usuario.apellido, usuario.nombre, fecha "
     . "FROM cierrecaja \n"
-    . "INNER join usuario ON usuario.id_usuario=cierrecaja.id_usuario ".$where;
-   // . "WHERE fecha=\"2022-02-28\" AND turno like \'%\'";
-
+    . "INNER join usuario ON usuario.id_usuario=cierrecaja.id_usuario "
+    . " WHERE ".$where;
 
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();

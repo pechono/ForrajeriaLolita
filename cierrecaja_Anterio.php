@@ -1,31 +1,34 @@
 <?php
 include_once "funciones.php";
 include_once "encabezado.php";
+$u_var=0;
+$f_var=0;
+$t_var=0;
+if(!isset($_POST["usuario"]) || $_POST["usuario"]==0 ){
 
-if(!iseet($_POST["usuario"]) || $_POST["usuario"]==""){
-
-$usuarioPost="cierrecaja.id_usuario like '%'";
+$usuarioPost=" cierrecaja.id_usuario like '%' ";
 }else{
-    $usuarioPost="cierrecaja.id_usuario=".$_POST["usuario"];
+    $usuarioPost=" cierrecaja.id_usuario=".$_POST["usuario"];
     $u_var=1;
 }
 
-if(!iseet($_POST["fecha"]) || $_POST["fecha"]==""){
+if(!isset($_POST["fecha"]) || $_POST["fecha"]==""){
 
-  $fechaPost="cierrecaja.fecha like '%'";
+  $fechaPost="cierrecaja.fecha like '%' ";
     }else{
-        $fechaPost="cierrecaja.fecha=".$_POST["fecha"];
+        $fechaPost=" cierrecaja.fecha=".$_POST["fecha"];
     $f_var=1;
     }
     
-    if(!iseet($_POST["turno"]) || $_POST["turno"]==""){
+    if(!isset($_POST["turno"]) || $_POST["turno"]==""){
 
-        $turnoPost="cierrecaja.turno like '%'";
+        $turnoPost=" cierrecaja.turno like '%' ";
         }else{
-            $turnoPost="cierrecaja.turno=".$_POST["turno"];
+            $turnoPost=" cierrecaja.turno= ".$_POST["turno"];
             $t_var=1;
         }
-$where= $usuarioPost." AMD ".$fechaPost." AND ". $turnoPost;
+$where= $usuarioPost." AND ".$fechaPost." AND ". $turnoPost;
+echo $fechaPost;
 $cierre=cierreCaja($where);    
 
 ?>
@@ -35,7 +38,7 @@ $cierre=cierreCaja($where);
 
 
 <div class="container">
-    <form action="cierrecaja_Anterio.php" metohod="post">
+    <form action="cierrecaja_Anterio.php" method="post">
 <table class="table">
     <tr>
         <td colspan=3>Cierres de caja</tr>
@@ -43,27 +46,26 @@ $cierre=cierreCaja($where);
         <td>Fecha</td><td>Usuario</td><td>Turno</td>
     </tr>
     <tr>
-        <td><input type="date" name="fecha"></td>
+        <td><input type="date" name="fecha"<?php if($t_var==1 ){echo "value='". $_POST["fecha"]."'";} ?>></td>
         <td><select name="usuario">
-            <option value="">Selecionar Usuario</option>
+            <option value="0">Selecionar Usuario</option>
             <?php 
              $Usuarios=usuario();
             foreach($Usuarios as $User){
-                echo "<option value='". $User->id_usuario ."'";
-                if($u_var==1){
-                echo  " selected>";
+                if($u_var==1 && $User->id_usuario == $_POST["usuario"]){
+                echo  "<option value='". $User->id_usuario ."' selected>".$User->apellido.", ".$User->nombre."</option>";
                 }else{
-                echo ">";       
+                echo "<option value='". $User->id_usuario ."'>" .$User->apellido.", ".$User->nombre."</option>";       
                 }
-                echo $User->apellido.", ".$User->nombre."</option>";
+            
             }?>
 
         </select></td>
         <td>
             <select name="turno">
                 <option value="">Todo</option>
-                <option value="1">Mañana</option>
-                <option value="2">Tarde</option>
+                <option value="1"<?php if($t_var==1 && $_POST["turno"]==1){echo "selected";} ?>> Mañana</option>
+                <option value="2"<?php if($t_var==1 && $_POST["turno"]==2){echo "selected";} ?>>Tarde</option>
             </select>
         </td>
         <td>
@@ -72,6 +74,46 @@ $cierre=cierreCaja($where);
     </tr>
 </table>
 </form>
+
+
+<div class="table">
+<table>
+<tr>
+        <td>id</td>
+        <td>efectivo</td>
+        <td>tarjeta</td>
+        <td>cuenta Corriente</td>
+        <td>canje</td>
+        <td>pago En Cuenta</td>
+        <td>Total</td>
+        <td>ganancia</td> 
+        <td>fecha</td>
+        <td>turno</td>
+        <td>usuario</td>
+    </tr>
+
+     <?php
+//$cierre=cierreCaja();
+foreach( $cierre as $cCja){
+?>
+
+    <tr>
+        <td><?php echo $cCja->id_cierre; ?></td>
+        <td><?php echo $cCja->efectivo; ?></td>
+        <td><?php echo $cCja->tarjeta; ?></td>
+        <td><?php echo $cCja->cCorriente; ?></td>
+        <td><?php echo $cCja->canje; ?></td>
+        <td><?php echo $cCja->pagoEnCuentaC; ?></td>
+        <td><?php echo $cCja->Total; ?></td>
+        <td><?php echo $cCja->ganancia; ?></td> 
+        <td><?php echo $cCja->fecha; ?></td>
+        <td><?php if ($cCja->turno==1){echo "Mañana";}else{ echo "Tarde"; } ?></td>
+        <td><?php echo $cCja->apellido.", ".$cCja->nombre; ?></td>
+    </tr>
+    <?php }?>
+</table>
+</div>
+
 </div>
 
 
