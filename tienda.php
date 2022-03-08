@@ -65,7 +65,7 @@ if(!isset($_GET["x"])){
 			
 				<?php
 						if ($producto->cantidad<=$producto->stockMinimo) {?>
-				<td style="color:red"; ><?php echo $producto->cantidad ?></td>
+				<td style="color:red"; ><b><?php echo $producto->cantidad ?></b></td>
 						<?php
 						} else {
 						?>
