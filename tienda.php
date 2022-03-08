@@ -62,7 +62,23 @@ if(!isset($_GET["x"])){
 			<td><?php echo $producto->id_unidadVenta ?></td>
 			
 			<td><?php echo $producto->limites_descuento ?></td>
-			<td><?php echo $producto->cantidad ?></td>
+			
+				<?php
+						if ($producto->cantidad<=$producto->stockMinimo) {?>
+				<td style="color:red"; ><?php echo $producto->cantidad ?></td>
+						<?php
+						} else {
+						?>
+							<td ><?php echo $producto->cantidad ?></td>
+						<?php
+						}
+						?>				
+				
+				
+
+
+
+
 			<td><?php echo $producto->detalles ?></td>
 
 			<?php if (productoYaEstaEnCarrito($producto->id_articulo)) { ?>

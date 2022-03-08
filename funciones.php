@@ -12,7 +12,7 @@ function obtenerProductosEnCarrito()
     iniciarSesionSiNoEstaIniciada();
    $sql = "SELECT articulo.id_articulo, articulo.nombre, "
     . "  articulo.precio_final, articulo.limites_descuento, articulo.id_unidadVenta,"
-    . " carrito.cantidad, stock.cantidad as stock, tipoart.tipoArti as categoria "
+    . " carrito.cantidad, stock.cantidad as stock,  tipoart.tipoArti as categoria "
     . "FROM articulo INNER JOIN"
     . "  carrito ON articulo.id_articulo = carrito.id_art INNER JOIN"
     . "  stock ON carrito.id_art = stock.id_articulo INNER JOIN"
@@ -40,7 +40,7 @@ function obtenerProductos()
     $bd = obtenerConexion();
     $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
     . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
-    . "  articulo.id_unidadVenta, stock.cantidad, articulo.detalles,articulo.caducidad, articulo.activo\n"
+    . "  articulo.id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo\n"
     . "FROM articulo INNER JOIN\n"
     . "  stock ON articulo.id_articulo = stock.id_articulo INNER JOIN\n"
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
@@ -226,20 +226,20 @@ function obtenerproveedor()
     $sentencia->execute([$var]);
     return $sentencia->fetchAll();
 }
-function guardarstock($id_art, $cantidad,$proveedor)
+function guardarstock($id_art, $cantidad,$proveedor,$minimo)
 {
     $bd = obtenerConexion();
 //$sql = "INSERT INTO tipoart (id_tipoArt, tipoArti, detalles) VALUES (NULL, \'farmacia\', \'elentos especificos para animales\');";
 
-    $sentencia = $bd->prepare("INSERT INTO stock (id_stock, id_articulo, cantidad, id_proveedor) VALUES (NULL, ?,?, ?);");
+    $sentencia = $bd->prepare("INSERT INTO stock (id_stock, id_articulo, cantidad, id_proveedor,stockMinimo) VALUES (NULL, ?,?, ?,?);");
 
-    return $sentencia->execute([$id_art,$cantidad, $proveedor]);
+    return $sentencia->execute([$id_art,$cantidad, $proveedor, $minimo]);
 }
 function obtenerProductos_buscar($buscar)
 {    
     $bd = obtenerConexion();
     
-    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento, articulo.id_unidadVenta, stock.cantidad, articulo.detalles,articulo.caducidad, articulo.activo  \n"
+    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento, articulo.id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo  \n"
 
     . "\n"
 

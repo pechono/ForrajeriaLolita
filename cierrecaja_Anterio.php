@@ -6,7 +6,7 @@ $f_var=0;
 $t_var=0;
 if(!isset($_POST["usuario"]) || $_POST["usuario"]==0 ){
 
-$usuarioPost=" cierrecaja.id_usuario like '%' ";
+$usuarioPost=" 1=2 ";
 }else{
     $usuarioPost=" cierrecaja.id_usuario=".$_POST["usuario"];
     $u_var=1;
@@ -14,7 +14,7 @@ $usuarioPost=" cierrecaja.id_usuario like '%' ";
 
 if(!isset($_POST["fecha"]) || $_POST["fecha"]==""){
 
-  $fechaPost="cierrecaja.fecha like '%' ";
+  $fechaPost="1=2";
     }else{
         $fechaPost=" cierrecaja.fecha=".$_POST["fecha"];
     $f_var=1;
@@ -22,13 +22,13 @@ if(!isset($_POST["fecha"]) || $_POST["fecha"]==""){
     
     if(!isset($_POST["turno"]) || $_POST["turno"]==""){
 
-        $turnoPost=" cierrecaja.turno like '%' ";
+        $turnoPost=" 1=2 ";
         }else{
             $turnoPost=" cierrecaja.turno= ".$_POST["turno"];
             $t_var=1;
         }
-$where= $usuarioPost." AND ".$fechaPost." AND ". $turnoPost;
-echo $fechaPost;
+$where= $usuarioPost." OR ".$fechaPost." OR ". $turnoPost;
+//echo $where;
 $cierre=cierreCaja($where);    
 
 ?>
@@ -46,7 +46,9 @@ $cierre=cierreCaja($where);
         <td>Fecha</td><td>Usuario</td><td>Turno</td>
     </tr>
     <tr>
-        <td><input type="date" name="fecha"<?php if($t_var==1 ){echo "value='". $_POST["fecha"]."'";} ?>></td>
+        <td><input type="date" name="fecha"<?php if($t_var==1 ){echo "value='". $_POST["fecha"]."'";} ?>>
+
+    </td>
         <td><select name="usuario">
             <option value="0">Selecionar Usuario</option>
             <?php 

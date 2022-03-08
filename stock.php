@@ -98,7 +98,8 @@ if($_GET["stock"]==1){
             <div class="field">
                 <label for="nombre">Cantidad de Unidades</label>
                 <div class="control">
-                    <input size="25" required id="cantidad"  type="text" placeholder="Cantidad" name="cantidad"">
+                    <input size="25" required id="cantidad"  type="text" placeholder="Cantidad" name="cantidad">
+                    <input size="25" required id="cantidad"  type="text" placeholder="Stock Minimo" name="minimo">
                     <input  type="hidden" value="<?php echo $id_art ?> " name="id_art">
                 </div>
             </div>       
