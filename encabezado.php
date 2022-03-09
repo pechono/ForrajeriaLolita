@@ -162,7 +162,7 @@ font-style: italic;
                             <li><a href="agregar_categoria.php">categoria</a></li>
                             <li><a href="cierrecaja.php">cierre de caja</a></li>
                             <li><a href="cierrecaja_Anterio.php">cierre de caja anteriores</a></li>
-                            
+                            <li><a href="pedido.php">pedido a proveedores</a></li>
                         </ul>
                 </div>
             </div>

@@ -97,8 +97,7 @@ if(!isset($_GET["x"])){
 			<?php } else { ?>
 			<td>
 				<form action="agregar_al_carrito.php" method="post">
-				<input type="text" id="name" name="cant_art" required 
-       minlength="1" maxlength="8" size="10"></td>
+				<input type="text" id="name" name="cant_art" required minlength="1" maxlength="8" size="10"></td>
 	   <td>
                             <input type="hidden" name="id_producto" value="<?php echo $producto->id_articulo ?>">
                             <button class="button is-primary">

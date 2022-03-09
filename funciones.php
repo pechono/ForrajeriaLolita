@@ -161,10 +161,17 @@ function stock()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sentencia = $bd->prepare("SELECT id_stock,id_articulo,cantidad FROM stock WHERE 1=?");
+    $sql = "SELECT stock.id_stock ,articulo.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial,articulo.precio_final,"
+    ." stock.cantidad, stock.stockMinimo, proveedor.nombre as proveedor "
+    ."FROM articulo INNER JOIN tipoart ON articulo.id_tipo=tipoart.id_tipoArt"
+    ." INNER JOIN stock ON stock.id_articulo=articulo.id_articulo "
+    ." INNER JOIN proveedor ON proveedor.id_proveedor=stock.id_stock"
+    ." where 1=?";
     $var=1;
+    $sentencia = $bd->prepare($sql);
     $sentencia->execute([$var]);
     return $sentencia->fetchAll();
+    
 }
 //--------------
 function venta()
@@ -197,30 +204,19 @@ function guardarcategoria($categoria, $detalles)
 function obtenerProductos_general()
 {    
     $bd = obtenerConexion();
-    
     $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
-
     . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
-
     . "  articulo.id_unidadVenta, articulo.detalles,articulo.caducidad, articulo.activo\n"
-
     . "FROM articulo INNER JOIN\n"
-
-
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
-
     . "WHERE articulo.activo = 1;";
- 
     $sentencia = $bd->query($sql_obtener);
-
-
     return $sentencia->fetchAll();
 }
 function obtenerproveedor()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-  
     $sentencia = $bd->prepare("SELECT * FROM proveedor WHERE 1=?");
     $var=1;
     $sentencia->execute([$var]);
@@ -230,9 +226,7 @@ function guardarstock($id_art, $cantidad,$proveedor,$minimo)
 {
     $bd = obtenerConexion();
 //$sql = "INSERT INTO tipoart (id_tipoArt, tipoArti, detalles) VALUES (NULL, \'farmacia\', \'elentos especificos para animales\');";
-
     $sentencia = $bd->prepare("INSERT INTO stock (id_stock, id_articulo, cantidad, id_proveedor,stockMinimo) VALUES (NULL, ?,?, ?,?);");
-
     return $sentencia->execute([$id_art,$cantidad, $proveedor, $minimo]);
 }
 function obtenerProductos_buscar($buscar)
@@ -387,4 +381,42 @@ function cierreCaja($where)
 
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
+}
+function productoYaEstaEnPedidoo($idProducto)
+{
+    $ids = ProductosEnPedido();
+    foreach ($ids as $id) {
+        if ($id == $idProducto) return true;
+    }
+    return false;
+}
+
+
+
+function ProductosEnPedido()
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $sentencia = $bd->prepare("SELECT `id_pedidoCar`, `id_articulo`, `cantidad` FROM `pedidocar` WHERE 1 = ?");
+    $var = 1;
+    $sentencia->execute([$var]);
+    return $sentencia->fetchAll(PDO::FETCH_COLUMN);
+}
+
+function quitarProductoDelPedido($idProducto)
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+   
+    $sentencia = $bd->prepare("DELETE FROM `pedidocar` WHERE id_articulo = ?");
+    return $sentencia->execute([$idProducto]);
+}
+function agregarProductoAlPedido($idProducto,$cant_art)
+{
+    // Ligar el id del producto con el usuario a través de la sesión
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $idSesion = session_id();
+    $sentencia = $bd->prepare("INSERT INTO pedidocar ( id_pedidoCar, id_articulo,cantidad) VALUES (null,?, ?)");
+    return $sentencia->execute([$idProducto, $cant_art]);
 }
