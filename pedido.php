@@ -15,7 +15,7 @@ include_once "encabezado.php"
             <td>Proveedor</td>
         </tr>   
         <?php
-        $stocks=stock();
+        $stocks=stockPedido();
         foreach ($stocks as $sk) {
     
         ?>
@@ -25,7 +25,19 @@ include_once "encabezado.php"
             <td><?php echo $sk->tipoArti; ?> </td> 
             <td><?php echo $sk->precio_inicial; ?></td> 
             <td><?php echo $sk->precio_final; ?></td> 
-            <td><?php echo $sk->cantidad; ?> </td>
+            
+                <?php 
+                    if($sk->diferencia <0){
+                ?>
+                    <td style="color:red"; ><b><?php echo $sk->cantidad ?></b></td>
+                <?php
+                    }else{
+                ?>        
+                        <td><b><?php echo $sk->cantidad ?></b></td>
+                <?php
+                    }
+                ?> 
+            
             <td><?php echo $sk->stockMinimo; ?> </td>
             <td><?php echo $sk->proveedor; ?> </td>
             <?php if (productoYaEstaEnPedidoo($sk->id_articulo)) { 
@@ -59,6 +71,17 @@ include_once "encabezado.php"
 
 			<?php }
             } ?>
+            <tr>
+			<td colspan=10></td>
+		</tr>
+		<tr>
+			<td colspan=9 align="right">
+                <?php
+                
+                ?>
+				<button class="button">Realizar Pedido</button>
+			</td>
+		</tr>
     </table>
 
 </div>

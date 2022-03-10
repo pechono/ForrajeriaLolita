@@ -165,12 +165,32 @@ function stock()
     ." stock.cantidad, stock.stockMinimo, proveedor.nombre as proveedor "
     ."FROM articulo INNER JOIN tipoart ON articulo.id_tipo=tipoart.id_tipoArt"
     ." INNER JOIN stock ON stock.id_articulo=articulo.id_articulo "
-    ." INNER JOIN proveedor ON proveedor.id_proveedor=stock.id_stock"
+    ." INNER JOIN proveedor ON proveedor.id_proveedor=stock.id_proveedor"
     ." where 1=?";
     $var=1;
     $sentencia = $bd->prepare($sql);
     $sentencia->execute([$var]);
     return $sentencia->fetchAll();
+    
+}
+function stockPedido()
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $sql = "SELECT stock.id_stock ,stock.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial,articulo.precio_final,\n"
+    . "     stock.cantidad, stock.stockMinimo, proveedor.nombre as proveedor, \n"
+    . "     (stock.cantidad-stock.stockMinimo) as diferencia\n"
+    . "    FROM articulo INNER JOIN tipoart ON articulo.id_tipo=tipoart.id_tipoArt\n"
+    . " INNER JOIN stock ON stock.id_articulo=articulo.id_articulo \n"
+    . " INNER JOIN proveedor ON proveedor.id_proveedor=stock.id_proveedor\n"
+    . "ORDER BY diferencia ASC";
+    $sentencia = $bd->query($sql);
+    return $sentencia->fetchAll();
+    //." where 1=?";
+    //$var=1;
+    //$sentencia = $bd->prepare($sql);
+    //$sentencia->execute([$var]);
+    //return $sentencia->fetchAll();
     
 }
 //--------------
@@ -386,7 +406,7 @@ function productoYaEstaEnPedidoo($idProducto)
 {
     $ids = ProductosEnPedido();
     foreach ($ids as $id) {
-        if ($id == $idProducto) return true;
+        if ($id->id_articulo == $idProducto) return true;
     }
     return false;
 }
@@ -397,10 +417,14 @@ function ProductosEnPedido()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sentencia = $bd->prepare("SELECT `id_pedidoCar`, `id_articulo`, `cantidad` FROM `pedidocar` WHERE 1 = ?");
-    $var = 1;
-    $sentencia->execute([$var]);
-    return $sentencia->fetchAll(PDO::FETCH_COLUMN);
+   // $sentencia = $bd->prepare("SELECT `id_pedidoCar`, `id_articulo`, `cantidad` FROM `pedidocar` WHERE 1 = ?");
+    //$var = 1;
+    //$sentencia->execute([$var]);
+    //return $sentencia->fetchAll(PDO::FETCH_COLUMN);
+    $sql="SELECT `id_pedidoCar`, `id_articulo`, `cantidad` FROM `pedidocar`";
+    $sentencia = $bd->query($sql);
+    return $sentencia->fetchAll();
+
 }
 
 function quitarProductoDelPedido($idProducto)
