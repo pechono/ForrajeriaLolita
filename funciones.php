@@ -1,10 +1,6 @@
 <?php
   date_default_timezone_set('America/Argentina/La_Rioja');
   iniciarSesionSiNoEstaIniciada();
-  
-
-
-
 
 function obtenerProductosEnCarrito()
 {
@@ -186,12 +182,6 @@ function stockPedido()
     . "ORDER BY diferencia ASC";
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
-    //." where 1=?";
-    //$var=1;
-    //$sentencia = $bd->prepare($sql);
-    //$sentencia->execute([$var]);
-    //return $sentencia->fetchAll();
-    
 }
 //--------------
 function venta()
@@ -245,47 +235,31 @@ function obtenerproveedor()
 function guardarstock($id_art, $cantidad,$proveedor,$minimo)
 {
     $bd = obtenerConexion();
-//$sql = "INSERT INTO tipoart (id_tipoArt, tipoArti, detalles) VALUES (NULL, \'farmacia\', \'elentos especificos para animales\');";
     $sentencia = $bd->prepare("INSERT INTO stock (id_stock, id_articulo, cantidad, id_proveedor,stockMinimo) VALUES (NULL, ?,?, ?,?);");
     return $sentencia->execute([$id_art,$cantidad, $proveedor, $minimo]);
 }
 function obtenerProductos_buscar($buscar)
 {    
     $bd = obtenerConexion();
-    
     $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento, articulo.id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo  \n"
-
     . "\n"
-
     . "FROM articulo INNER JOIN stock ON articulo.id_articulo = stock.id_articulo INNER JOIN tipoart ON tipoart.id_tipoArt = articulo.id_tipo \n"
-
     . "WHERE articulo.activo = 1 and articulo.nombre LIKE '%".$buscar. "%' OR articulo.detalles LIKE '%".$buscar. "%' OR tipoart.tipoArti LIKE '%".$buscar. "%';";
-
     $sentencia = $bd->query($sql_obtener);
-
-
     return $sentencia->fetchAll();
 }
 function cambiarPrecio($id,$pI,$pF)
 {    
     $bd = obtenerConexion();
-    
     $sql = "UPDATE articulo SET precio_inicial = '".$pI."', precio_final = '".$pF."' WHERE articulo.id_articulo =".$id;
-
     $sentencia = $bd->query($sql);
-
-
     return $sentencia->fetchAll();
 }
 function cliente()
 {    
-    $bd = obtenerConexion();
-    
+    $bd = obtenerConexion(); 
     $sql = "SELECT id_cliente, apellido, nombre, telefono FROM cliente WHERE 1";
-
     $sentencia = $bd->query($sql);
-
-
     return $sentencia->fetchAll();
 }
 
@@ -417,10 +391,6 @@ function ProductosEnPedido()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-   // $sentencia = $bd->prepare("SELECT `id_pedidoCar`, `id_articulo`, `cantidad` FROM `pedidocar` WHERE 1 = ?");
-    //$var = 1;
-    //$sentencia->execute([$var]);
-    //return $sentencia->fetchAll(PDO::FETCH_COLUMN);
     $sql="SELECT `id_pedidoCar`, `id_articulo`, `cantidad` FROM `pedidocar`";
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
@@ -443,4 +413,44 @@ function agregarProductoAlPedido($idProducto,$cant_art)
     $idSesion = session_id();
     $sentencia = $bd->prepare("INSERT INTO pedidocar ( id_pedidoCar, id_articulo,cantidad) VALUES (null,?, ?)");
     return $sentencia->execute([$idProducto, $cant_art]);
+}
+function ingresarOperacionPedido($proveedor)
+{
+    // Ligar el id del producto con el usuario a través de la sesión
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $idSesion = $_SESSION["idUsuario"];
+    $hoy=date('Y-m-d');
+
+    $sql = "INSERT INTO `operacionpedido` (`id_operacionPedido`, `id_usuario`, `id_proveedor`, `fecha`)";
+    $sentencia = $bd->prepare($sql." VALUES (null,?, ?,?)");
+    return $sentencia->execute([$idSesion, $proveedor,$hoy]);
+}
+function operacionPedido()
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $sql="SELECT `id_operacionPedido`, `id_usuario`, `id_proveedor`, `fecha` FROM `operacionpedido` WHERE 1";
+    $sentencia = $bd->query($sql);
+    return $sentencia->fetchAll();
+
+}
+function ingresarPedido($operacion,$art, $can)
+{
+    // Ligar el id del producto con el usuario a través de la sesión
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    
+    $sql = "INSERT INTO `pedido`(`id_pedido`, `operacionPedido`, `id_articulo`, `cantidad`)";
+    $sentencia = $bd->prepare($sql." VALUES (null,?, ?,?)");
+    return $sentencia->execute([$operacion, $art,$can]);
+}
+
+function borrarPedidoCar()
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $sentencia = $bd->query("TRUNCATE TABLE pedidocar ;");
+    return $sentencia->fetchAll();
+
 }

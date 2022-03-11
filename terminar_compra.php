@@ -30,7 +30,7 @@ $obt_total = obtenerProductosEnCarrito();
 $bd = obtenerConexion();
 //iniciarSesionSiNoEstaIniciada();
 $idSesion = $_SESSION["idUsuario"];
-echo "fvklneoghnelirhgolhrg". $idSesion;
+//echo "fvklneoghnelirhgolhrg". $idSesion;
 $t =0;
 foreach ($obt_total as $obt) {
         $t =$t + $obt->precio_final*$obt->cantidad;

@@ -71,16 +71,27 @@ include_once "encabezado.php"
 
 			<?php }
             } ?>
-            <tr>
+            <tr><form action="registarPedido.php" method="post">
 			<td colspan=10></td>
 		</tr>
 		<tr>
-			<td colspan=9 align="right">
+			<td colspan=8 align="right">
+                <h1>Seleccionar Proveedor</h1>
+            <select name="proveedor">
                 <?php
-                
+                 $p=obtenerproveedor();
+                 foreach($p as $oP){
+                   echo '<option value="'.$oP->id_proveedor.'">'.$oP->nombre."-".$oP->localidad.'</option>';
+                 }
+                 
                 ?>
+            </select>
+                </td>
+                <td>
 				<button class="button">Realizar Pedido</button>
+            
 			</td>
+        </form>
 		</tr>
     </table>
 
