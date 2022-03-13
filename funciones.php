@@ -450,7 +450,26 @@ function borrarPedidoCar()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sentencia = $bd->query("TRUNCATE TABLE pedidocar ;");
+        $sentencia = $bd->prepare("TRUNCATE TABLE pedidocar ;");
+        $sentencia->execute();
+
+}
+function imprimirPedido($op)
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $sql = "SELECT operacionpedido.id_operacionPedido,articulo.id_articulo, articulo.nombre as art, pedido.cantidad, proveedor.nombre as proveedor, usuario.apellido, usuario.nombre, fecha\n"
+    . " FROM "
+    . " operacionpedido INNER JOIN pedido on operacionpedido.id_operacionPedido=pedido.operacionPedido\n"
+    . "	INNER JOIN proveedor ON operacionpedido.id_proveedor=proveedor.id_proveedor\n"
+    . " INNER JOIN usuario ON operacionpedido.id_usuario=usuario.id_usuario\n"
+    . "	INNER JOIN articulo ON pedido.id_articulo= articulo.id_articulo\n"
+    . " WHERE operacionpedido.id_operacionPedido=".$op;
+    $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
 
+}
+function saltarImprimiPedido($op){
+    return header("Location: imprimirPedido.php?x='".$op."'");
+    die();
 }

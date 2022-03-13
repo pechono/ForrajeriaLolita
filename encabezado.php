@@ -2,18 +2,9 @@
 include_once ("funciones.php");
 
 if (!isset($_SESSION["idUsuario"])) {
-  echo !isset($_SESSION["idUsuario"]);
+ // echo !isset($_SESSION["idUsuario"]);
   exit("Primero debe ingresar al sisteman<br><a href='index.php'>regresar al inicio</a>");
-  //echo "<br><a href='index.php'>regresar al inicio</a>";
-
-} 
-
-
-
-
-?>
-
-
+} ?>
 <!DOCTYPE html>
 <html lang="es">
 

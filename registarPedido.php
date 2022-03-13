@@ -20,11 +20,11 @@ if($a==0){
     foreach($existe as $E){
         ingresarPedido($operacion,$E->id_articulo,$E->cantidad);
     } 
-}
 borrarPedidoCar();
-header("Location: pedido.php");
-?>
 
-<?php
-include_once "pie.php"
+}
 ?>
+<form action="imprimirPedido.php" method="post" target="_blank">
+    <input type="hidden" name="op" value="<?php echo $operacion; ?>">
+    <button class="button">Imprimir</button>
+</form>
