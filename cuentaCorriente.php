@@ -50,10 +50,25 @@
             
 
             ?>
+            
 <div class="table">
-    <table><form action="cuentaCorriente_pago.php" method="post">
+    <table>
+    <script>
+function alerta()
+    {
+    var mensaje;
+    var opcion = confirm("Desea Realizar la Venta");
+    if (opcion == true) {
+        mensaje = "1";
+	} else {
+	    mensaje = "0";
+	}
+	document.getElementById("msj").value = mensaje;
+}
+</script>    
+    <form action="cuentaCorriente_pago.php" method="post">
             <input type="hidden" name="id" value="<?php echo $cliente_id; ?>">
-            <input type="text" name="msj" id="ejemplo" readonly style="visibility:hidden;">
+            <input type="text" name="msj" id="msj" readonly style="visibility:hidden;">
            
         <tr>
             <th collspan="3" aling="center">Estado de cuenta</th>  <td>
@@ -78,16 +93,3 @@
     </form></table>
 </div>
 <?php include_once "pie.php"; ?>
-<script>
-function alerta()
-    {
-    var mensaje;
-    var opcion = confirm("Desea Realizar la Venta");
-    if (opcion == true) {
-        mensaje = "1";
-	} else {
-	    mensaje = "0";
-	}
-	document.getElementById("ejemplo").value = mensaje;
-}
-</script>

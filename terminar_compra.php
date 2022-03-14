@@ -1,8 +1,8 @@
 
 <?php
 include_once "funciones.php";
-
- if( 1==1){
+include_once "encabezado.php";
+ if( $_POST["msj"]==1){
 
 if (!isset($_POST["total"]) || !isset($_POST["desc"]) || !isset($_POST["tipov"])|| !isset($_POST["cliente"]) ) {
         echo $_POST["d"];
@@ -71,6 +71,8 @@ foreach ($productos as $producto) {
         foreach ($stock_array as $stock_list) {
                if($stock_list->id_articulo==$id){
                        $cant_stock=$stock_list->cantidad;
+                       $pI=$stock_list->precio_inicial;  
+                       $pF=$stock_list->precio_final;
                }
 
         }
@@ -78,8 +80,8 @@ foreach ($productos as $producto) {
 $cant_stock_res=$cant_stock-$cant; 
 //echo $cant_stock_res." =cantida stock   ". $cant_stock . " - stock" .$cant ."      id". $id;
 
-$sentencia = $bd->prepare("INSERT INTO `venta` (`id_venta`, `id_articulo`, `cantidad`, `id_operacion`) VALUES (Null, ?, ?, ?)");
-$sentencia->execute([$id, $cant,$op]);
+$sentencia = $bd->prepare("INSERT INTO `venta` (`id_venta`, `id_articulo`, `cantidad`, `id_operacion`,`precioI`,`precioF`) VALUES (Null, ?, ?, ?,?,?)");
+$sentencia->execute([$id, $cant,$op,$pI,$pF]);
 
 $sql = "UPDATE `stock` SET `cantidad` = '.$cant_stock_res.' WHERE `stock`.`id_articulo` = ".$id;
 
@@ -95,27 +97,31 @@ $sentencia->execute();
 
 
 
-if ($_POST["tipov"]==3 ) {
-        $detalles_c="-";
-        if (!isset($_POST["entrega"])){
-                $monto=0;
+        if ($_POST["tipov"]==3 ) {
+                $detalles_c="-";
+                if (!isset($_POST["entrega"])){
+                        $monto=0;
 
-        }else{
-                $monto=$_POST["entrega"];
-        }
-        $m=$t-$monto;
-        cuentaCoriente($op, $m,$hoy,$detalles_c,$c,$idSesion,$turno);  
-       // $op, $monto,$fecha,$detalles,$id_cliente   
-}
-}
-
-
-header("Location: tienda.php?x=0");
- }else{
+                }else{
+                        $monto=$_POST["entrega"];
+                }
+                $m=$t-$monto;
+                cuentaCoriente($op, $m,$hoy,$detalles_c,$c,$idSesion,$turno);  
+        // $op, $monto,$fecha,$detalles,$id_cliente   
+                }
+}//header("Location: tienda.php?x=0");
+?>
+<form action="imprimirVenta.php" method="post" target="_blank">
+    <input type="hidden" name="op" value="<?php echo $op; ?>">
+    <button class="button">Imprimir</button>
+</form>
+<?php echo $op; ?>
+<?php 
+}else{
         $bd = obtenerConexion();
 
         $sentencia = $bd->prepare("TRUNCATE TABLE carrito ;");
-        $var=1;
+       
         $sentencia->execute();
        header("Location: tienda.php?x=0");
 

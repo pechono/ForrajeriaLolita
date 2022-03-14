@@ -112,7 +112,7 @@ if (count($productos) <= 0) {
         <div class="column">
             <h2 class="is-size-2">Mi carrito de compras</h2>
             <form action="terminar_compra.php" method="post">
-            <input type="text" name="msj" id="ejemplo" readonly style="visibility:hidden;">
+            
             <table class="table">
                 <thead>
                     <tr>
@@ -233,6 +233,17 @@ if (count($productos) <= 0) {
                 document.getElementById('totaldesc').value=t;
                 return result;
             }
+            function vT()
+    {
+    var mensaje;
+    var opcion = confirm("Desea Realizar la Venta");
+    if (opcion == true) {
+        mensaje = "1";
+	} else {
+	    mensaje = "0";
+	}
+	document.getElementById("msj").value = mensaje;
+}
 
  </script>
                 <tfoot>
@@ -247,6 +258,7 @@ if (count($productos) <= 0) {
             </table>
             <input type="hidden" name="total" value="<?php echo number_format($total, 2) ?>">
 
+            <input type="text" name="msj" id="msj" readonly style="visibility:hidden;">
             <button class="button is-success is-large" onclick="vT()">
                                 <i class="fa fa-check">Terminar Compra</i>
             </button>
@@ -263,15 +275,5 @@ if (count($productos) <= 0) {
 <?php } ?>
 <?php include_once "pie.php" ?>
 <script>
-function vT()
-    {
-    var mensaje;
-    var opcion = confirm("Desea Realizar la Venta");
-    if (opcion == true) {
-        mensaje = "1";
-	} else {
-	    mensaje = "0";
-	}
-	document.getElementById("ejemplo").value = mensaje;
-}
+
 </script>

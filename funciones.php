@@ -469,7 +469,21 @@ function imprimirPedido($op)
     return $sentencia->fetchAll();
 
 }
-function saltarImprimiPedido($op){
-    return header("Location: imprimirPedido.php?x='".$op."'");
-    die();
+
+function imprimirVenta($op)
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+$sql = "SELECT operacion.id_operacion, articulo.id_articulo, articulo.nombre, tipoart.tipoArti, "
+. "               venta.cantidad, venta.precioF,tipoventa.tipoventa, cliente.apellido as aCl, cliente.nombre as nCl, "
+. "               usuario.apellido as aUs,usuario.nombre as nUs, operacion.fecha "
+. "FROM operacion INNER JOIN venta on venta.id_operacion=operacion.id_operacion\n"
+. "			      INNER JOIN cliente ON cliente.id_cliente=operacion.id_cliente\n"
+. "               INNER JOIN usuario ON usuario.id_usuario = operacion.id_usuario\n"
+. "               INNER join articulo ON articulo.id_articulo=venta.id_articulo\n"
+. "               INNER JOIN tipoart on articulo.id_tipo=tipoart.id_tipoArt\n"
+. "               INNER JOIN tipoventa ON tipoventa.id_tipoventa=operacion.id_tipoVenta\n"
+. " WHERE operacion.id_operacion=".$op;
+$sentencia = $bd->query($sql);
+return $sentencia->fetchAll();
 }
