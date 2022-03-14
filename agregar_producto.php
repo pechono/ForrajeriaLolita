@@ -4,109 +4,70 @@
     <div class="column is--third">
         <h2 class="is-size-2">Nuevo producto</h2>
         <form action="guardar_producto.php" method="post">
-            <div >
-            <h5 class="is-size-4">Nombre</h5>
-                <div class="control">
-                    <input required id="nombre"  type="text" placeholder="Nombre" name="nombre"size="80px">
-                </div>
-            </div>
-
-            
-
-
-            <div id="contenedor"">
-                <div>
-                     <h5 class="is-size-4">Categoria</h5>
-                    <div >
-
-                        <select   placeholder="categoria" name="categoria" size="1">
-                        <option value="">---  ---</option>
-                        <?php
-                            include_once "funciones.php";
-                            $catg = categoria();
-                            foreach ($catg as $categoria_art) { 
-                        ?>
-                                    <option value= <?php echo $categoria_art->id_tipoArt ?> ><?php echo $categoria_art->tipoArti ?></option>
-                        <?php   } ?>
-                            </select>
-            
-
-
-                            </div>
+        <div class="table">
+            <table class="table">
+                <tr>
+                    <td colspan="2"><h1>ingresar Nuevo Articulo</h1></td>
+                </tr>
+                <tr>
+                    <td colspan="2"> Nombre Articulo</td>
+                   
+                </tr>
+                <tr>
+                    <td colspan="2"><input required id="nombre"  type="text" placeholder="Nombre" name="nombre"size="80px"></td>
+                   
+                </tr><tr>
+                    <td>Seleccione Categoria</td>
+                    <td> Perecedero</td>
+                </tr>
+                <tr>
+                    <td><select   placeholder="categoria" name="categoria" size="1">
+                            <option value="">---  ---</option>
+                            <?php
+                                include_once "funciones.php";
+                                $catg = categoria();
+                                foreach ($catg as $categoria_art) { 
+                            ?>
+                                        <option value= <?php echo $categoria_art->id_tipoArt ?> ><?php echo $categoria_art->tipoArti ?></option>
+                            <?php   } ?>
+                        </select>
+                    </td>
+                    <td>
+                          <input type="radio" name="caducidad" value="si">Si
+                          <input type="radio" name="caducidad" value="no">No
+                    </td>
+                </tr>
+                <tr>
+                    <td>Precio Inicial</td>
+                    <td>Precio Final</td>
+                </tr>
+                <tr>
+                    <td><input required id="precioinicial" name="precioinicial"  type="number" placeholder="Precio inicial"size="30px"></td>
+                    <td><input  required id="preciofinal" name="preciofinal"  type="number" placeholder="Precio Final"size="30px"></td>
+                </tr>
+                <tr>
+                    <td>Limite Descuento</td>
+                    <td>Unidad/cantidad de Venta</td>
+                </tr>
+                <tr>
+                    <td><input required id="desceunto" name="descuento"  type="number" placeholder="Descuentoo"size="30px"></td>
+                    <td><input required id="unidadcantidad" name="unidadcantidad"  id="unidadcantidad" cols="30" rows="15" placeholder="unidadcantidad" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><textarea name="detalles" rows="10" cols="90"  placeholder="Detalles"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2">                  
+                        <button class="button is-success">Guardar</button>
+                        <a href="productos.php" class="button is-warning">Volver</a>
+                     </td>
+                </tr>
                 
-                </div>
-                        
-                <div >
-                            <h5 class="is-size-4">Perecedero</h5>
-                            <div >
-                                <input type="radio" name="caducidad" value="si">Si
-                                <input type="radio" name="caducidad" value="no">No
-                                </div>
-                         
-                                </div>
-
-
             </div>
 
-                              <br>
-
-                <div  id="contenedor"> 
-
-                    <div  >
-                    <h5 class="is-size-4">Precio Inicial</h5>
-                        <div >
-                            <input required id="precioinicial" name="precioinicial"  type="number" placeholder="Precio inicial"size="30px">
-                        </div>
-                    
-                    </div>
-
-
-
-                    <div >
-                    <h5 class="is-size-4">Precio Final</h5>
-                        <div>
-                        <input  required id="preciofinal" name="preciofinal"  type="number" placeholder="Precio Final"size="30px">
-                        </div>
-                    </div>
-
-                </div>
-                <br>
-
-                <div  id="contenedor"> 
-
-                    <div class="field" >
-                    <h5 class="is-size-4">Limite de descuento:</h5>                         <div >
-                        <input required id="desceunto" name="descuento"  type="number" placeholder="Descuentoo"size="30px">
-                        </div>
-                    
-                    </div>
-
-
-
-                    <div >
-                    <h5 class="is-size-4">Unidad/Cantidad de Venta</h5>
-                        <div>
-                        <input required id="unidadcantidad" name="unidadcantidad"  id="unidadcantidad" cols="30" rows="15" placeholder="unidadcantidad" required></textarea>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="field">
-                        <h5 class="is-size-4">Detalles</h5>
-                        <div class="control">
-
-                            <textarea name="detalles" rows="10" cols="90"  placeholder="Detalles"></textarea>
-                        </div>
-                 </div>
-
-            <div class="field">
-                <div class="control">
-                    <button class="button is-success">Guardar</button>
-                    <a href="productos.php" class="button is-warning">Volver</a>
-                </div>
-            </div>
+            </table>
+        </div>    
+        
         </form>
     </div>
 </div>

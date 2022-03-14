@@ -135,25 +135,59 @@ font-style: italic;
                 <div id="header">
                         <ul class="nav">
                             <li><a class="" href="tienda.php?x=0">Venta</a></li>
-                                <li>
-                                    <a class="" href="productos.php">Productos</a>
+                            <li><a class="" href="cuentaCorriente.php">Cuenta Corriente</a>
+                            <li><a class="" href="">Articulos</a>
+                                    
                                         <ul>
-                                            <a  href="stock.php?stock=0">Inventario</a></li>
-                                            <a class="" href="stock.php?stock=MpC">Modificar Precio</a></li>
-                                            <a class="" href="stock.php?stock=MSt">Incrementar Stock</a></li>
-                                        </ul>
+                                            <li><a class="" href="productos.php">Agregara Articulo</a></li>
+                                            <li> <a class="" href="productosEditar.php">Agregara Modificar</a></li>
+                                            <li><a class="" href="productosEliminar.php">Agregara Eliminar</a></li>
+                                            <li><a  href="stock.php?stock=0">Inventario</a></li>
+                                        <li><a class="" href="stock.php?stock=MpC">Modificar Precio</a></li>
+                                        <li><a class="" href="stock.php?stock=MSt">Incrementar Stock</a></li>
+                                        </ul> 
                                 </li>
                             <li><a href="informes.php">informes</a>
                            </li>
-                            <li><a href="agregar_proveedor.php">Proveedores</a></li>
-                            <li><a class="" href="cuentaCorriente.php">Cuenta Corriente</a>
+                           
+                           
                             
                           </li>
-                            <li><a href="agregar_cliente.php">clientes</a></li>
-                            <li><a href="agregar_categoria.php">categoria</a></li>
-                            <li><a href="cierrecaja.php">cierre de caja</a></li>
-                            <li><a href="cierrecaja_Anterio.php">cierre de caja anteriores</a></li>
-                            <li><a href="pedido.php">pedido a proveedores</a></li>
+                            
+                            <li><a class="" href="">Caja</a>     
+                                <ul>       
+                                  <li><a href="cierrecaja.php">cierre de caja</a></li>
+                                  <li><a href="cierrecaja_Anterio.php">cierre de caja anteriores</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="" href="">Ingresar</a>     
+                                <ul> 
+                                    <li><a class="" href="">Cliente</a>     
+                                        <ul>      
+                                          <li><a href="agregar_cliente.php">Agregar cliente</a></li>
+                                          <li><a href="modificar_cliente.php">Modicar Cliente</a></li>
+                                          <li><a href="eliminar_cliente.php">Eliminar cliente</a></li>
+                                       </ul>
+                                    </li>
+                                    <li><a class="" href="">Proveedor</a>     
+                                        <ul>
+                                          <li><a href="agregar_proveedor.php">Agregar Proveedor</a></li>
+                                          <li><a href="moficiar_proveedor.php">Modificar Proveedor</a></li>
+                                          <li><a href="eliminar_proveedor.php">Eliminar Proveedor</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="" href="">Categoria</a>     
+                                        <ul>
+                                        <li><a href="agregar_categoria.php">Ingresar Categoria</a></li>
+                                        <li><a href="Modificar_categoria.php">Modificiar Categoria</a></li>
+                                        <li><a href="Eliminar_categoria.php">Eliminar Categoria</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+
+                           <li><a href="pedido.php">pedido</a></li>
                         </ul>
                 </div>
             </div>
