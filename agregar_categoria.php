@@ -2,26 +2,19 @@
 <?php include_once "encabezado.php" ?>
 
 
-<div class="table">
 <form action="guardar_categoria.php" method="post">
-<table >
-    <tr><td <h2>ingresar Nuevo Categoria</h2></td>
-        <td rowspan="12" collspam='3' >
-            
-  
-  
-        <div class="container">
-          <label><h2>Categorias Registradas</h2></label>
-        <div class="table"> 
-        <table>
-            <tr >
-            <th>id</th>
-            <th >Categoria</th>
-            <th>Detalles</th>
-            
-          
-
+<div style = "float: RIGHT;  width: 800px;">  
+        <table class="table">
+          <tr>
+            <td colspan=3>
+                <label><h2>Categorias Registradas</h2></label>
+            </td>
           </tr>
+            <tr >
+              <th>id</th>
+              <th >Categoria</th>
+              <th>Detalles</th>
+            </tr>
           
           <?php 
           // $sql = "SELECT `id_tipoArt`, `tipoArti`, `detalles` FROM `tipoart` WHERE 1";
@@ -37,17 +30,15 @@
           
       </table>
 
-    </div>
-    </div> 
-       </td>
+    </div>   
+<div style = "float: Center;  width: 300px;">  
+  <table class="table"> 
+    <tr><td>  <h2>Categoria</h2></td> </tr>
+    <tr><td>  <h2><input type="text" name="categoria" placeholder="Categoria"></h2></td> </tr>
+    <tr><td>  <h2>Detalles</h2>    </td> </tr>
+    <tr><td>  <h2><input type="text" name="detalles" placeholder="Detalles"></h2></td> </tr>    
     
-</tr>
-    <tr><td  <h2>Categoria</h2></td> </tr>
-    <tr><td  <h2><input type="text" name="categoria" placeholder="Categoria"></h2></td> </tr>
-    <tr><td  <h2>Detalles</h2>    </td> </tr>
-    <tr><td  <h2><input type="text" name="detalles" placeholder="Detalles"></h2></td> </tr>    
-    
-    <tr><td  <h2>
+    <tr><td>  <h2>
         <div class="control">
                         <button class="button is-success">Guardar</button>
                         <a href="productos.php" class="button is-warning">Volver</a>
@@ -56,10 +47,12 @@
         </td> 
      </tr>    
 
-</table>
-</form>
-
+  </table>
 </div>
+</form>
+<div style = "float: Right;  width: 300px;"> 
+<tabla></tabla></div>
+
 
 
 

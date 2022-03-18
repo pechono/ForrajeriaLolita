@@ -72,7 +72,7 @@ font-style: italic;
 }
 #header {
       margin:auto;
-      width:600px;
+      width:800px;
       font-family:Arial, Helvetica, sans-serif;
     }
     ul, ol {
@@ -149,8 +149,7 @@ font-style: italic;
                                 </li>
                             <li><a href="informes.php">informes</a>
                            </li>
-                           
-                           
+                         
                             
                           </li>
                             
@@ -182,10 +181,10 @@ font-style: italic;
                                         <li><a href="Modificar_categoria.php">Modificiar Categoria</a></li>
                                         <li><a href="Eliminar_categoria.php">Eliminar Categoria</a></li>
                                         </ul>
-                                    </li>
+                                     </li>
                                     
                                 </ul>
-                            </li>
+                             </li>
 
                            <li><a href="pedido.php">pedido</a></li>
                         </ul>

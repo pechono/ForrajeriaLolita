@@ -2,19 +2,16 @@
 <?php include_once "encabezado.php" ?>
 
 
-<div class="table">
 <form action="guardar_proveedor.php" method="post">
-<table >
-    <tr><td <h2>ingresar Nuevo Proveedor</h2></td>
-        <td rowspan="12" collspam='3' >
-            
-  
-  
-        <div class="container">
-          <label><h2>Proveedores Registrados</h2></label>
-        <div class="table"> 
-        <table>
-            <tr >
+
+<div style = "float: right;"> 
+        <table class="table">
+        <tr>
+          <td colspan=7>
+             <label><h2>Proveedores Registrados</h2></label>
+          </td>
+        </tr>    
+           <tr >
             <td>id</td>
             <td >Nombre Empresa</td>
             <td>Rubro</td>
@@ -43,23 +40,21 @@
       </table>
 
     </div>
-    </div> 
-       </td>
-    
-</tr>
-    <tr><td  <h2>Empresa</h2></td> </tr>
-    <tr><td  <h2><input type="text" name="empresa" placeholder="Nombre Empresa"></h2>    </td> </tr>
-    <tr><td  <h2>Rubro Empresa</h2>    </td> </tr>
-    <tr><td  <h2><input type="text" name="rubro" placeholder="Rubro Empresa"></h2>    </td> </tr>    
-    <tr><td  <h2>Telefono</h2>    </td> </tr>
-    <tr><td  <h2><input type="text" name="telefono" placeholder="Telefono Empresa"></h2>    </td> </tr>    
-    <tr><td  <h2>Mail</h2>    </td> </tr>
-    <tr><td  <h2><input type="text" name="mail" placeholder="ail  Empresa"></h2>    </td> </tr>
-    <tr><td  <h2>Direccion Empresa</h2>    </td> </tr>
-    <tr><td  <h2><input type="text" name="direccion" placeholder="Direcion Empresa"></h2>    </td> </tr>   
-    <tr><td  <h2>Localidad</h2>    </td> </tr>
-    <tr><td  <h2><input type="text" name="localidad" placeholder="Localidad Empresa"></h2>    </td> </tr>    
-    <tr><td  <h2>
+  <div style = " width: 200px;" >
+<table class="table">
+    <tr><td >  <h2>Empresa</h2></td> </tr>
+    <tr><td  > <h2><input type="text" name="empresa" placeholder="Nombre Empresa"></h2>    </td> </tr>
+    <tr><td  >  <h2>Rubro Empresa</h2>    </td> </tr>
+    <tr><td  ><h2><input type="text" name="rubro" placeholder="Rubro Empresa"></h2>    </td> </tr>    
+    <tr><td  > <h2>Telefono</h2>    </td> </tr>
+    <tr><td  > <h2><input type="text" name="telefono" placeholder="Telefono Empresa"></h2>    </td> </tr>    
+    <tr><td  ><h2>Mail</h2>    </td> </tr>
+    <tr><td  ><h2><input type="text" name="mail" placeholder="ail  Empresa"></h2>    </td> </tr>
+    <tr><td  ><h2>Direccion Empresa</h2>    </td> </tr>
+    <tr><td  ><h2><input type="text" name="direccion" placeholder="Direcion Empresa"></h2>    </td> </tr>   
+    <tr><td  ><h2>Localidad</h2>    </td> </tr>
+    <tr><td  ><h2><input type="text" name="localidad" placeholder="Localidad Empresa"></h2>    </td> </tr>    
+    <tr><td  ><h2>
         <div class="control">
                         <button class="button is-success">Guardar</button>
                         <a href="productos.php" class="button is-warning">Volver</a>
@@ -71,7 +66,6 @@
 </table>
 </form>
 
-</div>
 
 
 
