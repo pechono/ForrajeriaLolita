@@ -20,12 +20,7 @@ if (!isset($_POST["total"]) || !isset($_POST["desc"]) || !isset($_POST["tipov"])
         $desc=$_POST["desc"];
         $cliente=$_POST["cliente"];
         $c=$_POST["cliente"];
-        
-
-
-
-# Es responsabilidad del programador hacer algo con los productos
-//include_once "funciones.php";
+       
 $obt_total = obtenerProductosEnCarrito();
 $bd = obtenerConexion();
 //iniciarSesionSiNoEstaIniciada();
@@ -66,7 +61,7 @@ iniciarSesionSiNoEstaIniciada();
 foreach ($productos as $producto) {
         $cant =$producto->cantidad;
        $id= $producto->id_articulo;
-       $cant_stock=0;
+      // $cant_stock=0;
         $stock_array = stock();
         foreach ($stock_array as $stock_list) {
                if($stock_list->id_articulo==$id){
@@ -76,20 +71,20 @@ foreach ($productos as $producto) {
                }
 
         }
-        
+        echo  " en stock ".$cant_stock."- cantidad". $cant." res =".$cant_stock_res=$cant_stock-$cant; 
 $cant_stock_res=$cant_stock-$cant; 
 //echo $cant_stock_res." =cantida stock   ". $cant_stock . " - stock" .$cant ."      id". $id;
 
 $sentencia = $bd->prepare("INSERT INTO `venta` (`id_venta`, `id_articulo`, `cantidad`, `id_operacion`,`precioI`,`precioF`) VALUES (Null, ?, ?, ?,?,?)");
 $sentencia->execute([$id, $cant,$op,$pI,$pF]);
 
-$sql = "UPDATE `stock` SET `cantidad` = '.$cant_stock_res.' WHERE `stock`.`id_articulo` = ".$id;
+$sql = "UPDATE `stock` SET `cantidad` = ".$cant_stock_res." WHERE `stock`.`id_articulo` = ".$id;
 
 $sentencia = $bd->prepare($sql." and 1=?;");
 $var=1;
 $sentencia->execute([$var]);
 }
-//echo $sql;
+echo $sql;
 
 $sentencia = $bd->prepare("TRUNCATE TABLE carrito ;");
 $var=1;

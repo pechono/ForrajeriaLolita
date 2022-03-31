@@ -63,7 +63,7 @@ include_once "encabezado.php"
                     <td>
                                     <input type="hidden" name="id_articulo" value="<?php echo $sk->id_articulo ?>">
                                     <button class="button is-primary">
-                                        <i class="fa fa-cart-plus"></i>&nbsp;Agregar al carrito
+                                        <i class="fa fa-cart-plus"></i>&nbsp;Solicitar
                                     </button>
                         
                     </td>

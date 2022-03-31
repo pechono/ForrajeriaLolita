@@ -21,6 +21,7 @@
                         echo '<td>'.$p->telefono.'</td></tr>';
                         }
                     ?>
+                    
                 </table>
             </div>
            

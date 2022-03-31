@@ -171,15 +171,15 @@ font-style: italic;
                                     <li><a class="" href="">Proveedor</a>     
                                         <ul>
                                           <li><a href="agregar_proveedor.php">Agregar Proveedor</a></li>
-                                          <li><a href="moficiar_proveedor.php">Modificar Proveedor</a></li>
+                                          <li><a href="modificar_proveedor.php">Modificar Proveedor</a></li>
                                           <li><a href="eliminar_proveedor.php">Eliminar Proveedor</a></li>
                                         </ul>
                                     </li>
                                     <li><a class="" href="">Categoria</a>     
                                         <ul>
                                         <li><a href="agregar_categoria.php">Ingresar Categoria</a></li>
-                                        <li><a href="Modificar_categoria.php">Modificiar Categoria</a></li>
-                                        <li><a href="Eliminar_categoria.php">Eliminar Categoria</a></li>
+                                        <li><a href="modificar_categoria.php">Modificiar Categoria</a></li>
+                                        <li><a href="eliminar_categoria.php">Eliminar Categoria</a></li>
                                         </ul>
                                      </li>
                                     

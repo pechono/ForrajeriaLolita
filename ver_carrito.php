@@ -63,32 +63,20 @@ if (count($productos) <= 0) {
                 <td><?php echo $producto->stock ?></td>
                 <td><?php echo $producto->cantidad ?></td>
                 <td> <?php echo $producto->cantidad* $producto->precio_final?></td>
-                
-
-                    
-
-                    <td><input type="text"  size="15px"  id="precio<?php echo $text ?>" value="<?php echo $producto->cantidad* $producto->precio_final?>" disabled="disabled" </td>
-                    <td><input type="text"  size="2px"  id="porcentaje<?php echo $text ?>" value="0"> </td>  
-                
-                    <td ><input type="button" onclick="Sumar(<?php echo $text ?>)" name="suma" value="Calcular"></td>
-                
-
-
-
+                <td><input type="text"  size="15px"  id="precio<?php echo $text ?>" value="<?php echo $producto->cantidad* $producto->precio_final?>" disabled="disabled" </td>
+                <td><input type="text"  size="2px"  id="porcentaje<?php echo $text ?>" value="0"> </td>  
+                <td ><input type="button" onclick="Sumar(<?php echo $text ?>)" name="suma" value="Calcular"></td>
                 <td>
-                                <form action="eliminar_del_carrito.php" method="post">
-                                    
+                    <form action="eliminar_del_carrito.php" method="post">               
                                     <input type="hidden" name="id_producto" value="<?php echo $producto->id_articulo ?>">
                                     <input type="hidden" name="redireccionar_carrito">
                                     <button class="button is-danger">
                                         <i class="fa fa-trash-o"></i>
                                     </button>
                                 </form>
-                            </td>
-
-                            
-                        <?php } ?>
-                        </tr>
+                </td>
+                  <?php } ?>
+            </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -96,14 +84,11 @@ if (count($productos) <= 0) {
                         <td colspan="2" class="is-size-4">
                             <?php echo number_format($total, 2) ?>
                         </td>
-                        <td> 
-                       
+                        <td>                        
                         </td>
                     </tr>
                 </tfoot>
             </table>
-            
-
         </div>
     </div>
 
@@ -116,13 +101,8 @@ if (count($productos) <= 0) {
             <table class="table">
                 <thead>
                     <tr>
-                        
-                    
                     <th>Seleccionar Cliente</th>
-                    
-                            
-                    <th >Seleccionar Forma de pago</th>
-                    
+                    <th>Seleccionar Forma de pago</th>
                     <th>Total Sin Descuento</th>
                     <th>Total Con descuento</th>
                     <th>Descuento en Pesos</th>
@@ -173,43 +153,20 @@ if (count($productos) <= 0) {
                            // $pago->tipoventa ."--".   $pago->interes?>
                            
                         <?php   } ?>
-
-
-
-
                             </th>
                             <th>  <?php echo number_format($total, 2) ?></th>
                             <td><input type="text"  size="5px"  id="totaldesc" value="0"   size="15px"    disabled="disabled" ></td></th>
                             <td><input type="text"  size="5px" name="desc"  id="total" value=0   size="15px" ></td>
-
-
-
-
-
-
                             <th rowspan=2><textarea name="detallesdes" rows="4" cols="60"  placeholder="Detalles" value="-"></textarea></th>
-
                             <tr>
-                                 <th colspan=1>
-                                Detalles de Operacion 
-                                
-                                 </th>
-                                 
-                                 <th colspan=1 text-align="right">
-                                Entrega en cuenta corriente 
-                                
-                                 </th>
+                                 <th colspan=1>Detalles de Operacion</th>
+                                 <th colspan=1 text-align="right">Entrega en cuenta corriente</th>
                                  <td colspan=3><input type="text"  size="5px" name="entrega"  id="entrega"    size="15px"value="0"></td>
                             </tr>
                             <tr>
-                                 <th colspan=7>
-                                 <textarea name="detallesop" rows="2" cols="211"  placeholder="Detalles" value="-"></textarea>
-
-                                 </th>
+                                 <th colspan=7><textarea name="detallesop" rows="2" cols="211"  placeholder="Detalles" value="-"></textarea></th>
                             </tr>
                 </tbody>
-
-
 <script type="text/javascript">
     var i
     var precio=0;
