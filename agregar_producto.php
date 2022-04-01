@@ -24,7 +24,6 @@
                     <td><select   placeholder="categoria" name="categoria" size="1">
                             <option value="">---  ---</option>
                             <?php
-                                include_once "funciones.php";
                                 $catg = categoria();
                                 foreach ($catg as $categoria_art) { 
                             ?>
@@ -51,7 +50,16 @@
                 </tr>
                 <tr>
                     <td><input required id="desceunto" name="descuento"  type="number" placeholder="Descuentoo"size="30px"></td>
-                    <td><input required id="unidadcantidad" name="unidadcantidad"  id="unidadcantidad" cols="30" rows="15" placeholder="unidadcantidad" required></td>
+                    <td><select   placeholder="Unidad/Cantidad" name="unidadcantidad" size="1">
+                            
+                            <?php
+                                $cnt = cantidad();
+                                foreach ($cnt as $cant) { 
+                            ?>
+                                        <option value= <?php echo $cant->id ?> ><?php echo $cant->unidadVenta ?></option>
+                            <?php   } ?>
+                        </select>
+                    <input type="checkbox" id="proActive" name="proActive"  value="1"> </td>
                 </tr>
                 <tr>
                     <td colspan="2"><textarea name="detalles" rows="10" cols="90"  placeholder="Detalles"></textarea></td>
