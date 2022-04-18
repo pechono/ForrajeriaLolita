@@ -31,12 +31,11 @@ include_once "encabezado.php";
             <td><?php echo $s->id_unidadVenta; ?></td>
             <td><?php echo $s->cantidad; ?></td>
             <td>
-				<form action="eliminar_del_carrito.php" method="post">
-                          
-                            <span class="button is-success">
-                                <i class="fa fa-check"></i>&nbsp;Abrir
-                            </span></td>
-							
+				<form action="abrirSuelto.php" method="post">
+                <input type="hidden" name="id" value="<?php echo $s->id_articulo ?>">
+                                     <button class="button is-primary">
+                                        <i class="fa fa-cart-plus"></i>&nbsp;Solicitar
+                                    </button>
                             
                         </form>
 			</td>

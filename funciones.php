@@ -1,18 +1,20 @@
 <?php
   date_default_timezone_set('America/Argentina/La_Rioja');
   iniciarSesionSiNoEstaIniciada();
-
+  $hoy=date('Y-m-d');
 function obtenerProductosEnCarrito()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-   $sql = "SELECT articulo.id_articulo, articulo.nombre, "
+   $sql = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, "
     . "  articulo.precio_final, articulo.limites_descuento,  unidadcantidad.unidadVenta as id_unidadVenta,"
     . " carrito.cantidad, stock.cantidad as stock,  tipoart.tipoArti as categoria "
     . "FROM articulo INNER JOIN"
     . "  carrito ON articulo.id_articulo = carrito.id_art INNER JOIN"
     . "  stock ON carrito.id_art = stock.id_articulo INNER JOIN"
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo "
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
+
     . " INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id";
     $sentencia = $bd->prepare($sql ." WHERE 1=?");
     $var=1;
@@ -35,15 +37,29 @@ function quitarProductoDelCarrito($idProducto)
 function obtenerProductos()
 {    
     $bd = obtenerConexion();
-    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
-    . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
-    . "   unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo\n"
-    . " FROM articulo INNER JOIN\n"
-    . "  stock ON articulo.id_articulo = stock.id_articulo INNER JOIN\n"
-    . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
-    . "  INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id"
-    . "  WHERE articulo.activo = 1";
-    $sentencia = $bd->query($sql_obtener);
+    $sql = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, \n"
+
+    . "	tipoart.tipoArti,\n"
+
+    . "     articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
+
+    . "       unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad,stock.stockMinimo, \n"
+
+    . "       articulo.detalles,articulo.caducidad, articulo.activo\n"
+
+    . "     FROM articulo INNER JOIN\n"
+
+    . "      stock ON articulo.id_articulo = stock.id_articulo INNER JOIN\n"
+
+    . "      tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
+
+    . "      INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id\n"
+
+    . "      INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
+
+    . "      WHERE articulo.activo = 1 order by articulo.id_articulo ASC";
+
+    $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
 }
 function productoYaEstaEnCarrito($idProducto)
@@ -70,12 +86,13 @@ function obtenerIdsDeProductosEnCarrito()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sql = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
+    $sql = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti,\n"
     . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
     . "   unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad, articulo.detalles, articulo.activo\n"
     . "FROM articulo INNER JOIN\n"
     . "  stock ON articulo.id_articulo = stock.id_articulo INNER JOIN\n"
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
     . "INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id WHERE articulo.activo = 1;";
     $sentencia = $bd->prepare($sql);
     return $sentencia->fetchAll(PDO::FETCH_COLUMN);
@@ -105,12 +122,12 @@ function eliminarProducto($id)
     return $sentencia->execute([$id]);
 }
 
-function guardarProducto($nombre, $categoria, $precioinicial,$preciofinal,$descuento,$unidadcantidad,$caducidad,$detalles,$suelto)
+function guardarProducto($nombre, $categoria, $precioinicial,$preciofinal,$descuento,$unidadcantidad,$caducidad,$detalles,$suelto,$pres,$u)
 {
     $bd = obtenerConexion();
-    $sentencia = $bd->prepare("INSERT INTO articulo (id_articulo, nombre, id_tipo, precio_inicial, precio_final, limites_descuento, id_unidadVenta, caducidad, detalles, activo,suelto) VALUES (NULL ,?, ?, ?,?, ?, ?,?,?,?,?)");
+    $sentencia = $bd->prepare("INSERT INTO articulo (id_articulo, nombre, id_tipo, precio_inicial, precio_final, limites_descuento, id_unidadVenta, caducidad, detalles, activo,suelto,presentacion,id_unidad) VALUES (NULL ,?, ?, ?,?,?,?, ?, ?,?,?,?,?)");
     $a=1;
-    return $sentencia->execute([$nombre, $categoria, $precioinicial,$preciofinal,$descuento,$unidadcantidad,$caducidad,$detalles,$a,$suelto]);
+    return $sentencia->execute([$nombre, $categoria, $precioinicial,$preciofinal,$descuento,$unidadcantidad,$caducidad,$detalles,$a,$suelto,$pres,$u]);
 }
 
 function obtenerVariableDelEntorno($key)
@@ -159,10 +176,11 @@ function stock()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sql = "SELECT stock.id_stock ,articulo.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial,articulo.precio_final,"
+    $sql = "SELECT stock.id_stock ,articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti, articulo.precio_inicial,articulo.precio_final,"
     ." stock.cantidad, stock.stockMinimo, proveedor.nombre as proveedor "
     ."FROM articulo INNER JOIN tipoart ON articulo.id_tipo=tipoart.id_tipoArt"
     ." INNER JOIN stock ON stock.id_articulo=articulo.id_articulo "
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
     ." INNER JOIN proveedor ON proveedor.id_proveedor=stock.id_proveedor";
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
@@ -172,11 +190,12 @@ function stockPedido()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sql = "SELECT stock.id_stock ,stock.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial,articulo.precio_final,\n"
+    $sql = "SELECT stock.id_stock ,stock.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti, articulo.precio_inicial,articulo.precio_final,\n"
     . "     stock.cantidad, stock.stockMinimo, proveedor.nombre as proveedor, \n"
     . "     (stock.cantidad-stock.stockMinimo) as diferencia\n"
     . "    FROM articulo INNER JOIN tipoart ON articulo.id_tipo=tipoart.id_tipoArt\n"
-    . " INNER JOIN stock ON stock.id_articulo=articulo.id_articulo \n"
+    . " INNER JOIN stock ON stock.id_articulo=articulo.id_articulo \n"    
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
     . " INNER JOIN proveedor ON proveedor.id_proveedor=stock.id_proveedor\n"
     . "ORDER BY diferencia ASC";
     $sentencia = $bd->query($sql);
@@ -187,12 +206,13 @@ function venta()
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sql = "SELECT venta.id_venta, venta.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
+    $sql = "SELECT venta.id_venta, venta.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti,\n"
     . "  articulo.precio_final, venta.cantidad, operacion.fecha, operacion.id_operacion\n"
     . "FROM venta INNER JOIN\n"
     . "  articulo ON articulo.id_articulo = venta.id_articulo INNER JOIN\n"
     . "  operacion ON operacion.id_operacion = venta.id_operacion INNER JOIN\n"
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo,\n"
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
     . "  stock";
     $sentencia = $bd->prepare($sql ." WHERE 1=?");
     $var=1;
@@ -213,12 +233,16 @@ function guardarcategoria($categoria, $detalles)
 function obtenerProductos_general()
 {    
     $bd = obtenerConexion();
-    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
+   
+
+    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti,\n"
     . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
     . "   unidadcantidad.unidadVenta as id_unidadVenta, articulo.detalles,articulo.caducidad, articulo.activo\n"
-    . "FROM articulo INNER JOIN\n"
+    . " FROM articulo INNER JOIN\n"
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
-    . " INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id WHERE articulo.activo = 1;";
+    . "  INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id"
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
+    . "  WHERE articulo.activo = 1 order by articulo.id_articulo ASC";
     $sentencia = $bd->query($sql_obtener);
     return $sentencia->fetchAll();
 }
@@ -240,10 +264,13 @@ function guardarstock($id_art, $cantidad,$proveedor,$minimo)
 function obtenerProductos_buscar($buscar)
 {    
     $bd = obtenerConexion();
-    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti, articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,  unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo  \n"
-    . "\n"
-    . "FROM articulo INNER JOIN stock ON articulo.id_articulo = stock.id_articulo INNER JOIN tipoart ON tipoart.id_tipoArt = articulo.id_tipo \n"
-    . " INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id WHERE articulo.activo = 1 and articulo.nombre LIKE '%".$buscar. "%' OR articulo.detalles LIKE '%".$buscar. "%' OR tipoart.tipoArti LIKE '%".$buscar. "%';";
+    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti, articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,"
+    ."  unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo  \n"
+    . "FROM articulo INNER JOIN stock ON articulo.id_articulo = stock.id_articulo "
+    ." INNER JOIN tipoart ON tipoart.id_tipoArt = articulo.id_tipo \n"
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
+    . " INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id "
+    ." WHERE articulo.activo = 1 and articulo.nombre LIKE '%".$buscar. "%' OR articulo.detalles LIKE '%".$buscar. "%' OR tipoart.tipoArti LIKE '%".$buscar. "%';";
     $sentencia = $bd->query($sql_obtener);
     return $sentencia->fetchAll();
 }
@@ -265,12 +292,8 @@ function cliente()
 function tipopago()
 {    
     $bd = obtenerConexion();
-    
     $sql = "SELECT id_tipoventa, tipoventa, detalles, interes FROM tipoventa WHERE 1";
-
     $sentencia = $bd->query($sql);
-
-
     return $sentencia->fetchAll();
 }
 
@@ -414,7 +437,7 @@ function ingresarOperacionPedido($proveedor)
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
     $idSesion = $_SESSION["idUsuario"];
-    $hoy=date('Y-m-d');
+   
 
     $sql = "INSERT INTO `operacionpedido` (`id_operacionPedido`, `id_usuario`, `id_proveedor`, `fecha`)";
     $sentencia = $bd->prepare($sql." VALUES (null,?, ?,?)");
@@ -452,7 +475,8 @@ function imprimirPedido($op)
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-    $sql = "SELECT operacionpedido.id_operacionPedido,articulo.id_articulo, articulo.nombre as art, pedido.cantidad, proveedor.nombre as proveedor, usuario.apellido, usuario.nombre, fecha\n"
+    $sql = "SELECT operacionpedido.id_operacionPedido,articulo.id_articulo," 
+    ." articulo.nombre as art, pedido.cantidad, proveedor.nombre as proveedor, usuario.apellido, usuario.nombre, fecha\n"
     . " FROM "
     . " operacionpedido INNER JOIN pedido on operacionpedido.id_operacionPedido=pedido.operacionPedido\n"
     . "	INNER JOIN proveedor ON operacionpedido.id_proveedor=proveedor.id_proveedor\n"
@@ -468,7 +492,7 @@ function imprimirVenta($op)
 {
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-$sql = "SELECT operacion.id_operacion, articulo.id_articulo, articulo.nombre, tipoart.tipoArti, "
+$sql = "SELECT operacion.id_operacion, articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti, "
 . "               venta.cantidad, venta.precioF,tipoventa.tipoventa, cliente.apellido as aCl, cliente.nombre as nCl, "
 . "               usuario.apellido as aUs,usuario.nombre as nUs, operacion.fecha "
 . "FROM operacion INNER JOIN venta on venta.id_operacion=operacion.id_operacion\n"
@@ -476,6 +500,7 @@ $sql = "SELECT operacion.id_operacion, articulo.id_articulo, articulo.nombre, ti
 . "               INNER JOIN usuario ON usuario.id_usuario = operacion.id_usuario\n"
 . "               INNER join articulo ON articulo.id_articulo=venta.id_articulo\n"
 . "               INNER JOIN tipoart on articulo.id_tipo=tipoart.id_tipoArt\n"
+            . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
 . "               INNER JOIN tipoventa ON tipoventa.id_tipoventa=operacion.id_tipoVenta\n"
 . " WHERE operacion.id_operacion=".$op;
 $sentencia = $bd->query($sql);
@@ -516,15 +541,47 @@ function cantidad()
 function suelto()
 {
     $bd = obtenerConexion();
-    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre, tipoart.tipoArti,\n"
+    $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti,\n"
     . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
     . "   unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad,stock.stockMinimo, articulo.detalles,articulo.caducidad, articulo.activo,articulo.suelto\n"
     . " FROM articulo INNER JOIN\n"
     . "  stock ON articulo.id_articulo = stock.id_articulo INNER JOIN\n"
     . "  tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
     . "  INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id"
+    . "  INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
     . "  WHERE articulo.activo = 1 AND articulo.suelto=1";
     $sentencia = $bd->query($sql_obtener);
+    return $sentencia->fetchAll();
+
+}
+function abrirSuelto($id)
+{
+    // Ligar el id del producto con el usuario a través de la sesión
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+  
+    $p=obtenerProductos_buscar($id);
+    foreach ($p as $Prod){
+     
+      
+            $cant=$Prod->tamanio;
+            $stk=$Prod->cantidad;
+            $agr=$stk+$cant;
+        
+    }
+    cambiarStock($id,$agr);
+    $hoy=date('Y-m-d'); 
+   // $bd = obtenerConexion();
+    //iniciarSesionSiNoEstaIniciada();
+    $sentencia = $bd->prepare("INSERT INTO `suelto`(`id_suelto`, `id_articulo`, `fecha`) VALUES (NULL,?,?)");
+    return $sentencia->execute([$id,$hoy]);    
+}
+function unidadMedida()
+{
+    $bd = obtenerConexion();
+    iniciarSesionSiNoEstaIniciada();
+    $sql="SELECT `umedida`, `id_unidad` FROM `unidadmedida`";
+    $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
 
 }

@@ -86,7 +86,7 @@ function informeArtVentaDiaria()
 {  
     $hoy=date('Y-m-d');
     $bd = obtenerConexion();  
-    $sql = "SELECT articulo.id_articulo as id,articulo.nombre, venta.precioI as precio_inicial ,\n"
+    $sql = "SELECT articulo.id_articulo as id,articulo.nombre,articulo.tamanio, venta.precioI as precio_inicial ,\n"
     . "     venta.precioF as precio_final , sum(venta.cantidad) as totalc, SUM(venta.precioI*venta.cantidad) as totalInicial,\n"
     . "     sum(venta.precioF*venta.cantidad) as totalFinal, SUM((venta.precioF*venta.cantidad)-(venta.precioI*venta.cantidad)) as GananciaTotal\n"
     . "     FROM venta INNER join articulo on venta.id_articulo=articulo.id_articulo \n"
@@ -100,7 +100,7 @@ function informeArtVentaMes()
 {  
     $mes= date("m")  ;
     $bd = obtenerConexion();
-    $sql = "SELECT articulo.id_articulo as id,articulo.nombre, venta.precioI as precio_inicial ,\n"
+    $sql = "SELECT articulo.id_articulo as id,articulo.nombre, articulo.tamanio, venta.precioI as precio_inicial ,\n"
     . "     venta.precioF as precio_final, sum(venta.cantidad) as totalc, SUM(venta.precioI*venta.cantidad) as totalInicial,\n"
     . "     sum(venta.precioF*venta.cantidad) as totalFinal, SUM((venta.precioF*venta.cantidad)-(venta.precioI*venta.cantidad)) as GananciaTotal\n"
     . "     FROM venta INNER join articulo on venta.id_articulo=articulo.id_articulo \n"
@@ -179,7 +179,7 @@ function arqueoArticulo()
 {  
     $hoy=date('Y-m-d');
     $turno=$_SESSION["turno"];
-    $sql = "SELECT articulo.id_articulo, articulo.nombre, sum(venta.cantidad) as c, venta.precioI as precio_inicial, venta.precioF as precio_final,sum((venta.cantidad*venta.precioF)-(venta.cantidad*venta.precioI)) as g FROM operacion INNER JOIN" 
+    $sql = "SELECT articulo.id_articulo, articulo.nombre,articulo.tamanio, sum(venta.cantidad) as c, venta.precioI as precio_inicial, venta.precioF as precio_final,sum((venta.cantidad*venta.precioF)-(venta.cantidad*venta.precioI)) as g FROM operacion INNER JOIN" 
     ." venta ON operacion.id_operacion=venta.id_operacion INNER JOIN articulo ON articulo.id_articulo=venta.id_articulo \n"
     ." WHERE operacion.fecha='".$hoy."' AND operacion.turno= ".$turno .""
     ." GROUP BY articulo.id_articulo;";  

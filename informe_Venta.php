@@ -10,7 +10,6 @@ $con=0;
 if (!isset($_POST["cliente"]) || $_POST["cliente"]=="" ){
     $cliente="1=2";
     $con++;
-	echo "cliente    ";
 }else{
   
     $cliente ="cliente.apellido like '%".$_POST["cliente"] ."%' OR cliente.nombre like '%".$_POST["cliente"]. "%'";
@@ -20,7 +19,6 @@ if (!isset($_POST["d"]) || $_POST["d"]==""){
     $descuento="1=2";
     //echo "no entre";
     $con++;
-	echo "descuento  ";
 
 }else{
     $descuento="operacion.descuento=".$_POST["d"];
@@ -29,7 +27,6 @@ if (!isset($_POST["d"]) || $_POST["d"]==""){
 if (!isset($_POST["detalles"])|| $_POST["detalles"]==""){
     $detalles="1=2";
 	$con++;
-	echo "detalles ";
 
 }else{
     $detalles="operacion.detalles like '%".$_POST["detalles"] ."%' OR operacion.detalle like '%".$_POST["detalles"]. "%'";
@@ -38,7 +35,6 @@ if (!isset($_POST["detalles"])|| $_POST["detalles"]==""){
 if (!isset($_POST["monto"]) || $_POST["monto"]=="" ){
     $monto='1=2';
 	$con++;
-	echo "monto  ";
 
 }else{
     $monto= $detalles="operacion.venta=".$_POST["monto"] ;
@@ -47,7 +43,6 @@ if (!isset($_POST["monto"]) || $_POST["monto"]=="" ){
 if (!isset($_POST["tipov"]) || $_POST["tipov"]==""){
     $tipov='1=2';
 	$con++;
-	echo "tipo  ";
 
 }else{
     $tipov="operacion.id_tipoVenta=".$_POST["tipov"] ;
@@ -56,7 +51,6 @@ if (!isset($_POST["tipov"]) || $_POST["tipov"]==""){
 if (!isset($_POST["fecha"]) || $_POST["fecha"]==""){
     $fecha='1=2';
 	$con++;
-	echo "fecha  ";
 
 }else{
     $fecha="operacion.fecha='".$_POST["fecha"]."'";
@@ -68,7 +62,6 @@ $sqlB="SELECT operacion.id_operacion, operacion.venta, operacion.fecha, operacio
 ." FROM operacion inner join tipoventa on operacion.id_tipoVenta=tipoventa.id_tipoventa "
 ." inner join cliente on cliente.id_cliente=operacion.id_cliente "
 . " WHERE ". $cliente ."  OR ". $descuento ."  OR ".$detalles ." OR " .$monto. " OR ". $tipov ." OR ".$fecha;
-echo $con;
 if(!$con==6){
 	$sqlB="SELECT operacion.id_operacion, operacion.venta, operacion.fecha, operacion.descuento, operacion.detalle, "
 	." tipoventa.tipoventa, operacion.detalles, " 
@@ -79,10 +72,6 @@ if(!$con==6){
 
 }
 
-echo $sqlB;
-?>
-
-<?php
 $a=false;
 if (!isset($_GET["inf"])){
 	$ventas = informeVenta();

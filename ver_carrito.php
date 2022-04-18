@@ -33,8 +33,10 @@ if (count($productos) <= 0) {
                     <tr>
                         <th>id</th>
                         <th>Articulo</th>
-                        <th>Precio</th>
+                        <th>Presentacion</th>
                         <th>categoria</th>
+                        <th>Precio</th>
+                        
                         <th>U/Cant</th>
                         <th>Limite Desc</th>
                         <th>Stock</th>
@@ -56,8 +58,10 @@ if (count($productos) <= 0) {
             <tr> 
                 <th scope="row"><?php echo $producto->id_articulo ?></th>
                 <td><?php echo $producto->nombre ?></td>
-                <td><?php echo $producto->precio_final ?></td>
+                <td><?php echo $producto->tamanio ?></td>
                 <td><?php echo $producto->categoria ?></td>
+                <td><?php echo $producto->precio_final ?></td>
+                
                 <td><?php echo $producto->id_unidadVenta ?></td>
                 <td><?php echo $producto->limites_descuento ?></td>
                 <td><?php echo $producto->stock ?></td>

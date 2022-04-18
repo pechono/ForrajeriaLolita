@@ -14,8 +14,18 @@
                    
                 </tr>
                 <tr>
-                    <td colspan="2"><input required id="nombre"  type="text" placeholder="Nombre" name="nombre"size="80px"></td>
-                   
+                    <td colspan=""><input required id="nombre"  type="text" placeholder="Nombre" name="nombre"size="60px"></td>
+                    <td colspan=""><input required id="presentacion"  type="text" placeholder="Presentacion" name="presentacion"size="20px">
+
+                    <select   placeholder="unidad" name="unidad" size="1">
+                            <?php
+                                $uni = unidadMedida();
+                                foreach ($uni as $c) { 
+                            ?>
+                                        <option value= <?php echo $c->id_unidad ?> ><?php echo $c->umedida ?></option>
+                            <?php   } ?>
+                    </select>
+                    </td>
                 </tr><tr>
                     <td>Seleccione Categoria</td>
                     <td> Perecedero</td>

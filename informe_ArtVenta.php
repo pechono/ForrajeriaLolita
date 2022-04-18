@@ -25,7 +25,7 @@ if (!isset($_POST["fecha"]) || $_POST["fecha"]==""){
     $fecha="operacion.fecha='".$_POST["fecha"]."'";
 }
 
-$sqlB="SELECT articulo.id_articulo as id,articulo.nombre, precio_inicial ,\n"
+$sqlB="SELECT articulo.id_articulo as id,articulo.nombre,articulo.tamanio, precio_inicial ,\n"
     . "     precio_final , sum(venta.cantidad) as totalc, SUM(precio_inicial*venta.cantidad) as totalInicial,\n"
     . "     sum(precio_final*venta.cantidad) as totalFinal, SUM((precio_final*venta.cantidad)-(precio_inicial*venta.cantidad)) as GananciaTotal\n"
     . "     FROM venta INNER join articulo on venta.id_articulo=articulo.id_articulo \n"
@@ -33,15 +33,6 @@ $sqlB="SELECT articulo.id_articulo as id,articulo.nombre, precio_inicial ,\n"
     . "WHERE ". $fecha ." or " .$articulo . ""
     . " GROUP BY articulo.id_articulo;";
 
-
-
-echo $con;
-
-
-
-?>
-
-<?php
 $a=false;
 if (!isset($_GET["inf"])){
 	$ventas = informeArtVenta();
@@ -126,14 +117,15 @@ if (!isset($_GET["inf"])){
 <div class="table">
 <table cellspacing="0" border="0">
 
-	<colgroup span="8" width="69"></colgroup>
+	<colgroup span="9" width="69"></colgroup>
 	<tr>
-		<th colspan=8 align="center"><?php echo $mensaje;?>	</th>
+		<th colspan=9 align="center"><?php echo $mensaje;?>	</th>
 	</tr>
 	<tr>
 
 		<td align="left" valign=bottom>id</td>
 		<td align="left" valign=bottom><font>Articulo</td>
+		<td align="left" valign=bottom><font>Presentacion</td>
 		<td align="left" valign=bottom><font>Precio Inicial</td>
 		<td align="left" valign=bottom><font>Precio Final</td>
 		<td align="left" valign=bottom><font>Cantidad Vendida</td>
@@ -157,6 +149,7 @@ foreach ($ventasArt as $venta) {
 	<tr>
 		<td  align="left" valign=bottom><?php echo $venta->id?></td>
 		<td align="left" valign=bottom><?php echo $venta->nombre?></td>
+		<td align="left" valign=bottom><?php echo $venta->tamanio;?></td>
 		<td align="left" valign=bottom><?php echo $venta->precio_inicial;?></td>
 		<td align="left" valign=bottom><?php echo $venta->precio_final;?></td>
 		<td align="left" valign=bottom><?php echo $venta->totalc;?></td>

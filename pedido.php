@@ -7,6 +7,7 @@ include_once "encabezado.php"
         <tr>
             <td>id</td>
             <td>Articulo</td>
+            <td>Presentacion</td>
             <td>Categoria</td>
             <td>Precio Inicial </td>
             <td>Precio final</td>
@@ -22,6 +23,7 @@ include_once "encabezado.php"
         <tr>
             <td><?php echo $sk->id_articulo; ?> </td>
             <td><?php echo $sk->nombre; ?> </td> 
+            <td><?php echo $sk->tamanio; ?> </td> 
             <td><?php echo $sk->tipoArti; ?> </td> 
             <td><?php echo $sk->precio_inicial; ?></td> 
             <td><?php echo $sk->precio_final; ?></td> 

@@ -7,6 +7,7 @@ if($_GET["stock"]==1){
     foreach ($productosg as $producto) {
         $id_art=$producto->id_articulo;
         $nombre=$producto->nombre;
+         $tamanio=$producto->tamanio;
          $tipo=$producto->tipoArti;
          $precioi=$producto->precio_inicial; 
          $preciof=$producto->precio_final;
@@ -34,7 +35,12 @@ if($_GET["stock"]==1){
                 <h5 class="is-size-5"><b><?php echo $nombre ?></b></h5>
                 </div>
             </div>
-
+           <div  class="field">
+            <h5 class="is-size-6">Presentacion:</h5> 
+                <div class="control">
+                <h5 class="is-size-5"><b><?php echo $tamanio ?></b></h5>
+                </div>
+            </div>
             <div class="field">
             <h5 class="is-size-6">Categoria:</h5> 
                 <div class="control">
@@ -152,10 +158,11 @@ if($_GET["stock"]==1){
                     <tr>
                         <th scope="col">id</th>
                         <th scope="col">Articulo</th>
+                        <th scope="col">Presentacion</th>
                         <th scope="col">Tipo Articulo</th>
                         <th scope="col">Precio Inicial</th>
                         <th scope="col">Precio Final</th>
-                        <th scope="col"> unidad cant</th>
+                        <th scope="col">Unidad cant</th>
                         <th scope="col">Limite Descuento</th>
                         <th scope="col">Stok</th>
                         <th scope="col">Detalles</th>
@@ -172,6 +179,8 @@ if($_GET["stock"]==1){
                     <tr>
                         <th scope="row"><?php echo $producto->id_articulo ?></th>
                         <td><?php echo $producto->nombre ?></td>
+                        <td><?php echo $producto->tamanio ?></td>
+
                         <td><?php echo $producto->tipoArti ?></td>
                         <td><?php echo $producto->precio_inicial ?></td>
                         <td><?php echo $producto->precio_final ?></td>

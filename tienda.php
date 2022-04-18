@@ -36,6 +36,7 @@ if(!isset($_GET["x"])){
 		<tr>
 			<th scope="col">id</th>
 			<th scope="col">Articulo</th>
+			<th scope="col">Presentacion</th>
 			<th scope="col">Tipo Articulo</th>
 			<th scope="col">Precio Inicial</th>
 			<th scope="col">Precio Final</th>
@@ -56,6 +57,7 @@ if(!isset($_GET["x"])){
 		<tr>
 			<th scope="row"><?php echo $producto->id_articulo ?></th>
 			<td><?php echo $producto->nombre ?></td>
+			<td><?php echo $producto->tamanio ?></td>
 			<td><?php echo $producto->tipoArti ?></td>
 			<td><?php echo $producto->precio_inicial ?></td>
 			<td><?php echo $producto->precio_final ?></td>
