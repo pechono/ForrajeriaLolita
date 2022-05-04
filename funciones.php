@@ -38,27 +38,16 @@ function obtenerProductos()
 {    
     $bd = obtenerConexion();
     $sql = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, \n"
-
     . "	tipoart.tipoArti,\n"
-
     . "     articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
-
     . "       unidadcantidad.unidadVenta as id_unidadVenta, stock.cantidad,stock.stockMinimo, \n"
-
-    . "       articulo.detalles,articulo.caducidad, articulo.activo\n"
-
+    . "       articulo.detalles,articulo.caducidad, articulo.activo, unidadmedida.umedida,articulo.presentacion "
     . "     FROM articulo INNER JOIN\n"
-
     . "      stock ON articulo.id_articulo = stock.id_articulo INNER JOIN\n"
-
     . "      tipoart ON tipoart.id_tipoArt = articulo.id_tipo\n"
-
     . "      INNER JOIN unidadcantidad on articulo.id_unidadVenta=unidadcantidad.id\n"
-
     . "      INNER JOIN unidadmedida on unidadmedida.id_unidad=articulo.id_unidad\n"
-
     . "      WHERE articulo.activo = 1 order by articulo.id_articulo ASC";
-
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
 }
@@ -70,9 +59,6 @@ function productoYaEstaEnCarrito($idProducto)
     }
     return false;
 }
-
-
-
 function ProductosEnCarrito()
 {
     $bd = obtenerConexion();
@@ -233,8 +219,6 @@ function guardarcategoria($categoria, $detalles)
 function obtenerProductos_general()
 {    
     $bd = obtenerConexion();
-   
-
     $sql_obtener = "SELECT articulo.id_articulo, articulo.nombre,concat(articulo.presentacion, \" - \", unidadmedida.umedida) as tamanio, tipoart.tipoArti,\n"
     . "  articulo.precio_inicial, articulo.precio_final, articulo.limites_descuento,\n"
     . "   unidadcantidad.unidadVenta as id_unidadVenta, articulo.detalles,articulo.caducidad, articulo.activo\n"
@@ -296,9 +280,6 @@ function tipopago()
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
 }
-
-
-
 function cambiarStock($id,$stock)
 {    
     $bd = obtenerConexion();
@@ -324,8 +305,8 @@ function insertarProveedores($nombre, $telefono, $rubro,$direccion, $localidad, 
     return $sentencia->execute([$nombre, $telefono, $rubro,$direccion, $localidad, $mail]);
 }
 function obtener_cuentaCorriente($id)
-{$bd = obtenerConexion();
-    
+{
+    $bd = obtenerConexion();
     $sql = "SELECT sum(monto) as total,cliente.apellido,cliente.nombre \n"
     . "FROM cuentacorriente INNER JOIN cliente ON cuentacorriente.id_cliente=cliente.id_cliente\n"
     . "WHERE cliente.id_cliente=".$id;
@@ -383,13 +364,11 @@ function ingresarCierre($usuario,$turno,$fecha,$efectivo,$tarjeta, $corriente,$c
 function cierreCaja($where)
 {
     $bd = obtenerConexion();
-
     $sql = "SELECT `id_cierre`,efectivo, `tarjeta`, `cCorriente`, `canje`, `pagoEnCuentaC`, `Total`, `ganancia`,\n "
     . "turno, usuario.apellido, usuario.nombre, fecha "
     . "FROM cierrecaja \n"
     . "INNER join usuario ON usuario.id_usuario=cierrecaja.id_usuario "
     . " WHERE ".$where;
-
     $sentencia = $bd->query($sql);
     return $sentencia->fetchAll();
 }
@@ -556,14 +535,12 @@ function suelto()
 }
 function abrirSuelto($id)
 {
-    // Ligar el id del producto con el usuario a través de la sesión
     $bd = obtenerConexion();
     iniciarSesionSiNoEstaIniciada();
-  
-    $p=obtenerProductos_buscar($id);
-    foreach ($p as $Prod){
-     
-      
+    $p=obtenerProductos($id);
+    $agr=0;
+    foreach ($p as $Prod){  
+    //unidadmedida.umedida,articulo.presentacion
             $cant=$Prod->tamanio;
             $stk=$Prod->cantidad;
             $agr=$stk+$cant;

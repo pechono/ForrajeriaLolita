@@ -4,10 +4,10 @@ if (isset($_POST["id"])){
     $id=$_POST["id"];
     abrirSuelto($id);
     echo "entro";
-   header("Location:suelto.php");
+   //header("Location:suelto.php");
 }else{
     echo("no");
-    header("Location:suelto.php");
+  //  header("Location:suelto.php");
 }
 
 ?>

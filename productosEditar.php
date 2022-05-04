@@ -1,4 +1,3 @@
-
 <?php include_once "encabezado.php" ?>
 <?php
 include_once "funciones.php";
@@ -7,7 +6,7 @@ $productos = obtenerProductos();
 <div class="columns">
     <div class="column">
         <h2 class="is-size-2">Productos existentes</h2>
-        <a class="button is-success" href="agregar_producto.php">Nuevo&nbsp;<i class="fa fa-plus"></i></a>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -41,19 +40,11 @@ $productos = obtenerProductos();
             <td><?php echo $producto->caducidad ?></td>
 			<td><?php echo $producto->detalles ?></td>
 
-                            <form action="productoEditat.php" method="post">
-                                <input type="hidden" name="id_producto" value="<?php echo $producto->id ?>">
+                            <form action="producto_regEdit.php" method="post">
+                                <input type="hidden" name="id_articulo" value="<?php echo $producto->id_articulo ?>">
                                 
                                 <td><button class="button is-primary" >
                                     Editar
-                                </button>
-                                </td>
-                            </form>
-                            <form action="productoEditat.php" method="post">
-                                <input type="hidden" name="id_producto" value="<?php echo $producto->id ?>">
-                                
-                                <td><button class="button is-danger" >
-                                    Eliminar
                                 </button>
                                 </td>
                             </form>
